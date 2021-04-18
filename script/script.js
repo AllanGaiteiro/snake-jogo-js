@@ -6,6 +6,8 @@ snake[0] = {
     x: 8 * box,
     y: 8 * box,
 }
+let direction = 'right';
+
 // create back ground
 const createBG = () => {
     context.fillStyle = "lightgreen";
@@ -15,10 +17,32 @@ const createBG = () => {
 const createSnake = () => {
     for (const s of snake) {
         context.fillStyle = "green";
-        context.fillRect(s.x, s.y,box,box);
+        context.fillRect(s.x, s.y, box, box);
     }
 }
 
+const initGame = () => {
+    createBG();
+    createSnake();
 
-createBG();
-createSnake();
+    let snakeX = snake[0].x;
+    let snakeY = snake[0].y;
+
+    if (direction == 'right') snakeX += box;
+    if (direction == 'left') snakeX -= box;
+    if (direction == 'up') snakeY -= box;
+    if (direction == 'down') snakeY += box;
+
+    // remove 
+    snake.pop();
+    
+    // head snake
+    snake.unshift({x:snakeX,y:snakeY});
+
+}
+
+
+setInterval(() => {
+    initGame();
+}, 100);
+
