@@ -43,14 +43,16 @@ const controlGame = (event) => {
 
 const framesGame = () => {
     frames = setInterval(() => {
+        //context.clearRect(0, 0, canvas.width, canvas.height);
+
         if (snake.slice(1).find(s => s.x === snake[0].x && s.y === snake[0].y)) {
             clearInterval(frames)
         }
 
-        if (snake[0].x > 15 * box && direction === 'right') snake[0].x = 0;
-        if (snake[0].x < 0 * box && direction === 'left') snake[0].x = 15 * box;
-        if (snake[0].y < 0 * box && direction === 'up') snake[0].y = 15 * box;
-        if (snake[0].y > 15 * box && direction === 'down') snake[0].y = 0;
+        if (snake[0].x > 15 * box) snake[0].x = 0;
+        if (snake[0].x < 0 * box) snake[0].x = 15 * box;
+        if (snake[0].y < 0 * box) snake[0].y = 15 * box;
+        if (snake[0].y > 15 * box) snake[0].y = 0;
 
         createBG();
         createFood();
@@ -71,6 +73,7 @@ const framesGame = () => {
             food.x = randonPosition();
             food.y = randonPosition();
             score++;
+            console.log(score)
         }
 
         // head snake
