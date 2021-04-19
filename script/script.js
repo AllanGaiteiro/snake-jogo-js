@@ -32,13 +32,13 @@ const controlGame = (event) => {
     if ([40, 83].includes(event.keyCode) && direction !== 'up') direction = 'down';
 
 
-        if ([32].includes(event.keyCode)) {
-            if (!menu) {
-                clearInterval(frames)
-                menuGame()
-            }
-            menu = !menu;
+    if ([32].includes(event.keyCode)) {
+        if (!menu) {
+            clearInterval(frames)
+            menuGame()
         }
+        menu = !menu;
+    }
 }
 
 const framesGame = () => {
@@ -73,7 +73,8 @@ const framesGame = () => {
             food.x = randonPosition();
             food.y = randonPosition();
             score++;
-            console.log(score)
+            meatFood();
+            console.log(score);
         }
 
         // head snake
@@ -98,6 +99,10 @@ const createSnake = () => {
 const createFood = () => {
     context.fillStyle = "red";
     context.fillRect(food.x, food.y, box, box);
+}
+
+const meatFood = () => {
+    document.querySelector('audio#meat-food').play();
 }
 
 const initGame = () => {

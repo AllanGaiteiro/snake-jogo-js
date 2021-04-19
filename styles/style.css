@@ -11,13 +11,11 @@ body {
 }
 #snake-title{
     margin: 20px auto;
+    font-size: 4rem;
 }
 #snake-js{
     width: 512px;
     height: 512px;
     margin: 20px auto;
-}
-#menu{
-
 }
 
