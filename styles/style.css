@@ -9,13 +9,34 @@ body {
     width: 100%;
     text-align: center;
 }
-#snake-title{
+#snake-title {
     margin: 20px auto;
     font-size: 4rem;
 }
-#snake-js{
+#snake-js {
     width: 512px;
     height: 512px;
     margin: 20px auto;
 }
 
+#controler {
+    color: #808080;
+    cursor: pointer;
+}
+#restart{
+    color: #0e6ab6;
+}
+#restart:hover{
+    color: #1880d4;
+}
+#playGame {
+    color: #1b991b;
+    cursor: pointer;
+}
+#playGame:hover {
+    color: #28cf28;
+}
+#controler:hover {
+    color: #a8a8a8;
+    transition: 0.4s all;
+}

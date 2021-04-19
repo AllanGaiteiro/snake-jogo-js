@@ -1,5 +1,8 @@
 const canvas = document.getElementById('snake-js');
+const scoreElement = document.getElementById('score');
+const spanMenu = document.getElementById('text-menu');
 const context = canvas.getContext('2d');
+let lose = false;
 let menu = false;
 let score = 0;
 var frames;
@@ -51,6 +54,7 @@ const controlGame = (event) => {
 
 // create back ground
 const createBG = () => {
+    context.clearRect(0, 0, 16 * box, 16 * box);
     context.fillStyle = "lightgreen";
     context.fillRect(0, 0, 16 * box, 16 * box);
 }
@@ -70,6 +74,14 @@ const createFood = () => {
 }
 
 const menuGame = () => {
+    if (lose){
+        spanMenu.innerText = 'Game Over: your score ' + score;
+    }else if (score === 0) {
+        spanMenu.innerText = "Play Game";
+    } else {
+        spanMenu.innerText = 'Score Game: ' + score;
+    }
+
     clearInterval(frames);
     menu = true;
     $(document).ready(function () {
@@ -78,26 +90,31 @@ const menuGame = () => {
 }
 
 
-const lose = () => {
+const gameOver = () => {
+    lose = true;
     songLose();
-    clearInterval(frames);
+    
+    if (!menu) menuGame();
+    menu = !menu;
+
 }
 const meatFood = () => {
     food.x = randonPosition();
     food.y = randonPosition();
     score++;
     songMeatFood();
+    scoreElement.innerText = score;
     console.log(score);
 }
+/*
 const win = () => {
 
-}
+}*/
 const framesGame = () => {
     frames = setInterval(() => {
-        //context.clearRect(0, 0, canvas.width, canvas.height);
 
-        if (snake.slice(1).find(s => s.x === snake[0].x && s.y === snake[0].y)) lose();
-        if (snake[0].x > 15 * box || snake[0].x < 0 * box || snake[0].y < 0 * box || snake[0].y > 15 * box) lose();
+        if (snake.slice(1).find(s => s.x === snake[0].x && s.y === snake[0].y)) gameOver();
+        if (snake[0].x > 15 * box || snake[0].x < 0 * box || snake[0].y < 0 * box || snake[0].y > 15 * box) gameOver();
 
         createBG();
         createFood();
