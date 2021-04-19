@@ -25,6 +25,17 @@ const randonPosition = () => {
     return random;
 }
 
+// song meat food
+const songMeatFood = () => {
+    document.querySelector('audio#meat-food').play();
+}
+
+// song lose
+const songLose = () => {
+    document.querySelector('audio#lose').play();
+}
+
+// control snake
 const controlGame = (event) => {
     if ([37, 65].includes(event.keyCode) && direction !== 'right') direction = 'left';
     if ([38, 87].includes(event.keyCode) && direction !== 'down') direction = 'up';
@@ -33,26 +44,60 @@ const controlGame = (event) => {
 
 
     if ([32].includes(event.keyCode)) {
-        if (!menu) {
-            clearInterval(frames)
-            menuGame()
-        }
+        if (!menu) menuGame();
         menu = !menu;
     }
 }
 
+// create back ground
+const createBG = () => {
+    context.fillStyle = "lightgreen";
+    context.fillRect(0, 0, 16 * box, 16 * box);
+}
+
+// create snake
+const createSnake = () => {
+    for (const s of snake) {
+        context.fillStyle = "green";
+        context.fillRect(s.x, s.y, box, box);
+    }
+}
+
+// create food
+const createFood = () => {
+    context.fillStyle = "red";
+    context.fillRect(food.x, food.y, box, box);
+}
+
+const menuGame = () => {
+    clearInterval(frames);
+    menu = true;
+    $(document).ready(function () {
+        $('#modal').modal('show');
+    })
+}
+
+
+const lose = () => {
+    songLose();
+    clearInterval(frames);
+}
+const meatFood = () => {
+    food.x = randonPosition();
+    food.y = randonPosition();
+    score++;
+    songMeatFood();
+    console.log(score);
+}
+const win = () => {
+
+}
 const framesGame = () => {
     frames = setInterval(() => {
         //context.clearRect(0, 0, canvas.width, canvas.height);
 
-        if (snake.slice(1).find(s => s.x === snake[0].x && s.y === snake[0].y)) {
-            clearInterval(frames)
-        }
-
-        if (snake[0].x > 15 * box) snake[0].x = 0;
-        if (snake[0].x < 0 * box) snake[0].x = 15 * box;
-        if (snake[0].y < 0 * box) snake[0].y = 15 * box;
-        if (snake[0].y > 15 * box) snake[0].y = 0;
+        if (snake.slice(1).find(s => s.x === snake[0].x && s.y === snake[0].y)) lose();
+        if (snake[0].x > 15 * box || snake[0].x < 0 * box || snake[0].y < 0 * box || snake[0].y > 15 * box) lose();
 
         createBG();
         createFood();
@@ -70,11 +115,7 @@ const framesGame = () => {
         if (snakeX != food.x || snakeY != food.y) {
             snake.pop();
         } else {
-            food.x = randonPosition();
-            food.y = randonPosition();
-            score++;
             meatFood();
-            console.log(score);
         }
 
         // head snake
@@ -83,27 +124,6 @@ const framesGame = () => {
     }, 100);
 }
 
-// create back ground
-const createBG = () => {
-    context.fillStyle = "lightgreen";
-    context.fillRect(0, 0, 16 * box, 16 * box);
-}
-// create snake
-const createSnake = () => {
-    for (const s of snake) {
-        context.fillStyle = "green";
-        context.fillRect(s.x, s.y, box, box);
-    }
-}
-
-const createFood = () => {
-    context.fillStyle = "red";
-    context.fillRect(food.x, food.y, box, box);
-}
-
-const meatFood = () => {
-    document.querySelector('audio#meat-food').play();
-}
 
 const initGame = () => {
     framesGame()
@@ -112,12 +132,7 @@ const initGame = () => {
     createSnake();
 }
 
-const menuGame = () => {
-    menu = true;
-    $(document).ready(function () {
-        $('#modal').modal('show');
-    })
-}
+
 document.addEventListener('keydown', controlGame);
 createBG();
 menuGame();
